@@ -1,0 +1,21 @@
+name: Eternal Live Stream
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # يعيد تشغيل نفسه كل 6 ساعات [cite: 2026-01-30]
+  workflow_dispatch: # زر التشغيل اليدوي [cite: 2026-01-30]
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install System Tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg python3-pip && pip3 install yt-dlp [cite: 2026-01-30]
+
+      - name: Start Streaming
+        run: |
+          # سحب رابط باب الرجاء
+          url=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=_eEn0DnrP_4") [cite: 2026-01-18]
+          
+          # البث للمفتاح الجديد (صافي بدون كلمات)
+          ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -b:v 400k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p" [cite: 2026-01-16, 2026-01-30]
