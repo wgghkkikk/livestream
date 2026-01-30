@@ -1,21 +1,20 @@
-name: Eternal Live Stream
+name: Eternal-Live
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'
-  workflow_dispatch:
 
 jobs:
-  stream:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Tools
+      - name: Install
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt update
+          sudo apt install -y ffmpeg
           pip install yt-dlp [cite: 2026-01-30]
-
-      - name: Start Streaming
+      - name: Stream
         run: |
           url=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=_eEn0DnrP_4") [cite: 2026-01-18]
           ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -b:v 400k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p" [cite: 2026-01-16, 2026-01-18]
