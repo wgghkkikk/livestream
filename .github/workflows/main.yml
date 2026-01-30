@@ -17,5 +17,6 @@ jobs:
 
       - name: Stream
         run: |
-          url=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=_eEn0DnrP_4")
+          # استخدام رابط مباشر ومستقر لا يحتاج تسجيل دخول
+          url=$(yt-dlp -f "best" -g "https://www.youtube.com/watch?v=ma67ySdJLm4")
           ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -b:v 400k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
