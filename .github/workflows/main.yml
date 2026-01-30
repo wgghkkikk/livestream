@@ -9,14 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install
+      - name: Install Tools
         run: |
           sudo apt update
           sudo apt install -y ffmpeg
-          pip install yt-dlp
 
       - name: Stream
         run: |
-          # استخدام رابط مباشر ومستقر لا يحتاج تسجيل دخول
-          url=$(yt-dlp -f "best" -g "https://www.youtube.com/watch?v=ma67ySdJLm4")
-          ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -b:v 400k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          # استخدام رابط بث مباشر (M3U8) يتجاوز حماية يوتيوب تماماً
+          ffmpeg -re -i "https://ssh1.miraath.net/radio/8010/radio.mp3" -loop 1 -i "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" -c:v libx264 -preset ultrafast -b:v 400k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
